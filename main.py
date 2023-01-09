@@ -125,7 +125,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def generarGraficoRegresion(self, x, y, y_pred, nameFile):
         plt.scatter(x, y, color='g')
-        plt.plot(x,y_pred)
+        tmp = np.sort(x.copy())
+        tmp2 = np.sort(y_pred.copy())
+
+        plt.plot(tmp, tmp2)
         plt.title(nameFile)
         plt.ylabel('Y')
         plt.xlabel('X')
@@ -133,6 +136,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         plt.cla()
         plt.clf()
 
+    def generarGraficoRegresionLog(self, x, y, y_pred, nameFile):
+        plt.scatter(x, y, color='g')
+        tmp = np.sort(x.copy())
+        plt.plot(tmp, y_pred)
+        plt.title(nameFile)
+        plt.ylabel('Y')
+        plt.xlabel('X')
+        plt.savefig(nameFile + '.png', dpi=75)
+        plt.cla()
+        plt.clf()
 
     def browseFile(self):
         self.file_name = QFileDialog.getOpenFileName(self, 'Open file', '/home/lara/Desktop/Proba/Regression')[0]
@@ -147,7 +160,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.labelRes.setText('Error en el archivo, asegurese de tener una columna X y Y sin valores nulos')
             return None, None
     def clasificarButton(self):
-        print('Regresion')
         if self.radioButtonManual.isChecked():
             x, y = self.getDataTable()
             if (not x is None) and (not y is None):
@@ -173,6 +185,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             print(self.x_deafualt, self.y_deafualt)
 
 
+
         #Plot data
         self.generarGraficoData(x,y, 'data')
         self.pixmap = QPixmap('data.png')
@@ -185,7 +198,50 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_MSE_lineal.setText('MSE: ' + str(mse))
         self.pixmap = QPixmap('Regresión lineal.png')
         self.linealImage.setPixmap(self.pixmap)
+        min_mse = mse
+        min_mse_name='lineal'
+        #Exponencial
+        y_pred, mse = self.regressor.exp_line()
+        self.generarGraficoRegresion(np.log(x.copy()), np.log(y.copy()), y_pred, 'Regresión exponencial (escala lineal)')
+        self.label_MSE_Exp.setText('MSE: ' + str(mse))
+        self.pixmap = QPixmap('Regresión exponencial (escala lineal).png')
+        self.expImage.setPixmap(self.pixmap)
 
+        y_pred = self.regressor.exp_log()
+        self.generarGraficoRegresionLog(x.copy(), y, y_pred, 'Regresión exponencial (escala logaritmica)')
+        self.pixmap = QPixmap('Regresión exponencial (escala logaritmica).png')
+        self.expImage_log.setPixmap(self.pixmap)
+
+        if mse<min_mse:
+            min_mse = mse
+            min_mse_name='exponencial'
+
+        #Ley de potencias
+        y_pred, mse = self.regressor.powerlaw_line()
+        self.generarGraficoRegresion(x, y, y_pred, 'Regresión ley de potencias (escala lineal)')
+        self.label_MSE_law.setText('MSE: ' + str(mse))
+        self.pixmap = QPixmap('Regresión ley de potencias (escala lineal).png')
+        self.lawImage.setPixmap(self.pixmap)
+
+        y_pred = self.regressor.powerlaw_log()
+        self.generarGraficoRegresionLog(x.copy(), y, y_pred, 'Regresión ley de potencias (escala logaritmica)')
+        self.pixmap = QPixmap('Regresión ley de potencias (escala logaritmica).png')
+        self.lawImage_log.setPixmap(self.pixmap)
+        if mse<min_mse:
+            min_mse = mse
+            min_mse_name='ley de potencias'
+
+        #Polinomial
+        y_pred, mse = self.regressor.polinomial()
+        self.generarGraficoRegresion(x, y, y_pred, 'Regresión polinomial')
+        self.label_MSE_poli.setText('MSE: ' + str(mse))
+        self.pixmap = QPixmap('Regresión polinomial.png')
+        self.poliImage.setPixmap(self.pixmap)
+        if mse<min_mse:
+            min_mse = mse
+            min_mse_name='polinomial'
+
+        self.labelRes.setText('La mejor regresión es la '+ min_mse_name+ ' con un MSE de '+ str(mse))
 
 
     def __del__(self):

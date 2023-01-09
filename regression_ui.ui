@@ -441,26 +441,6 @@
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
-        <item row="2" column="0">
-         <widget class="QLabel" name="expImage">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_MSE_Exp">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>MSE: </string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="label_8">
           <property name="font">
@@ -480,6 +460,47 @@
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_MSE_Exp">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>MSE: </string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="expImage">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Escala logaritmica</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="expImage_log">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Escala líneal</string>
           </property>
          </widget>
         </item>
@@ -513,7 +534,7 @@
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_4">
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="lawImage">
           <property name="text">
            <string/>
@@ -552,6 +573,27 @@
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Escala líneal</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Escala logaritmica</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="lawImage_log">
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
