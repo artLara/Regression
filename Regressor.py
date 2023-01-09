@@ -5,7 +5,6 @@ class Regressor():
         self.x = None
         self.y = None
 
-
     def setValues(self, x, y):
         self.x = np.array(x).copy()
         self.y = np.array(y).copy()

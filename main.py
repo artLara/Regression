@@ -5,6 +5,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 import numpy as np
 import random
+from scipy.stats import pearsonr, norm, kurtosis, skew
+import statistics as st
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as Navi
 from PyQt5.QtWidgets import*
@@ -190,6 +192,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.generarGraficoData(x,y, 'data')
         self.pixmap = QPixmap('data.png')
         self.imagenTodos.setPixmap(self.pixmap)
+        data = ""
+        data += 'Max={} Min={} Moda={}\n'.format(np.round(max(x), 7), np.round(min(x), 7), st.mode(x))
+
+        data += 'Media={} \nDesviación estandar={}\n'.format(np.round(np.mean(x), 7), np.round(np.std(x), 7))
+        a = [x,y]
+        covariance = np.cov(a)[0][1]
+        corr, _ = pearsonr(x, y)
+        data += 'Covarianza={} \nCorrelación de Pearson={}\n'.format(np.round(covariance, 7), np.round(corr, 7))
+        data += 'Kurtosis={} \nAsimetría={}\n'.format(np.round(kurtosis(x), 7), np.round(skew(x), 7))
+
+
+        self.data.setText(data)
 
         #Lineal
         self.regressor.setValues(x,y)
@@ -241,7 +255,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             min_mse = mse
             min_mse_name='polinomial'
 
-        self.labelRes.setText('La mejor regresión es la '+ min_mse_name+ ' con un MSE de '+ str(mse))
+        self.labelRes.setText('La mejor regresión es la '+ min_mse_name+ ' con un MSE de '+ str(min_mse))
 
 
     def __del__(self):
